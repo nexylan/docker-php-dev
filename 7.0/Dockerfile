@@ -11,6 +11,7 @@ libpng12-dev \
 libgif-dev \
 libxpm-dev \
 libvpx-dev \
+libsqlite3-dev \
 && rm --recursive --force /var/lib/apt/lists/*
 
 # Extra languages needed for tools
