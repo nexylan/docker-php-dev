@@ -69,8 +69,8 @@ RUN wget --quiet -O /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar 
 RUN wget --quiet -O /usr/local/bin/phpunit-old https://phar.phpunit.de/phpunit-old.phar && chmod +x /usr/local/bin/phpunit-old
 
 # PHP-CS-Fixer
-RUN wget --quiet -O /usr/local/bin/php-cs-fixer http://get.sensiolabs.org/php-cs-fixer.phar && chmod +x /usr/local/bin/php-cs-fixer
-RUN wget --quiet -O /usr/local/bin/php-cs-fixer-2 http://get.sensiolabs.org/php-cs-fixer-v2.0.0-alpha.phar && chmod +x /usr/local/bin/php-cs-fixer-2
+RUN wget --quiet -O /usr/local/bin/php-cs-fixer http://get.sensiolabs.org/php-cs-fixer-v2.0.0-alpha.phar && chmod +x /usr/local/bin/php-cs-fixer
+RUN wget --quiet -O /usr/local/bin/php-cs-fixer-1 http://get.sensiolabs.org/php-cs-fixer.phar && chmod +x /usr/local/bin/php-cs-fixer-1
 
 # NodeJS link trick
 RUN ln -s /usr/bin/nodejs /usr/bin/node
