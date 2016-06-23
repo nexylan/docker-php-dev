@@ -12,4 +12,6 @@ if [ ! "$(getent passwd "${UNIX_USERNAME}")" ]; then
 fi
 
 chown ${UNIX_USERNAME}:${UNIX_GROUP} /home/developer
-chown -R ${UNIX_USERNAME}:${UNIX_GROUP} /home/developer/.composer
+chown -R ${UNIX_USERNAME}:${UNIX_GROUP} \
+/home/developer/.composer \
+/home/developer/.bashrc

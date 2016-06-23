@@ -30,9 +30,8 @@ mysql-client \
 && rm --recursive --force /var/lib/apt/lists/*
 
 # PECL extensions
+# Install xdebug but do not activate it by default. See /etc/profile/php.sh
 RUN pecl install \
-xdebug \
-&& docker-php-ext-enable \
 xdebug
 
 # Extensions
@@ -82,3 +81,5 @@ yaml-lint
 
 ADD setup.sh /usr/local/bin/setup
 RUN chmod u+x /usr/local/bin/setup
+
+ADD home/.bashrc /home/developer/
