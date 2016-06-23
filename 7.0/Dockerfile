@@ -58,11 +58,10 @@ RUN docker-php-ext-configure gd \
 ENV COMPOSER_HOME /home/developer/.composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN mkdir -p ${COMPOSER_HOME}
-RUN composer global require --no-update \
+RUN composer global require --prefer-dist --no-progress --no-interaction \
 hirak/prestissimo \
 pyrech/composer-changelogs \
 sllh/composer-versions-check \
-&& composer global install --prefer-dist --no-progress --no-interaction \
 && composer clear-cache
 
 # PHPUnit
