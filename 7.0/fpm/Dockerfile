@@ -50,10 +50,10 @@ mbstring
 
 # GD configuration
 RUN docker-php-ext-configure gd \
---with-freetype-dir=/usr/lib/x86_64-linux-gnu/ \
---with-jpeg-dir=/usr/lib/x86_64-linux-gnu/ \
---with-xpm-dir=/usr/lib/x86_64-linux-gnu/ \
---with-vpx-dir=/usr/lib/x86_64-linux-gnu/
+--with-freetype-dir=/usr/ \
+--with-jpeg-dir=/usr/ \
+--with-xpm-dir=/usr/ \
+--with-vpx-dir=/usr/
 
 ADD setup.sh /usr/local/bin/setup
 RUN chmod u+x /usr/local/bin/setup
