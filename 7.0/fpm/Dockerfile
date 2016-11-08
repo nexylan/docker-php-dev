@@ -35,6 +35,13 @@ xdebug \
 && docker-php-ext-enable \
 xdebug
 
+# GD configuration
+RUN docker-php-ext-configure gd \
+--with-freetype-dir=/usr/ \
+--with-jpeg-dir=/usr/ \
+--with-xpm-dir=/usr/ \
+--with-vpx-dir=/usr/
+
 # Extensions
 # https://github.com/docker-library/docs/blob/master/php/content.md#how-to-install-more-php-extensions
 RUN docker-php-ext-install -j`nproc` \
@@ -47,13 +54,6 @@ pcntl \
 bcmath \
 shmop \
 mbstring
-
-# GD configuration
-RUN docker-php-ext-configure gd \
---with-freetype-dir=/usr/ \
---with-jpeg-dir=/usr/ \
---with-xpm-dir=/usr/ \
---with-vpx-dir=/usr/
 
 ADD setup.sh /usr/local/bin/setup
 RUN chmod u+x /usr/local/bin/setup

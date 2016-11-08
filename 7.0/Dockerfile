@@ -34,6 +34,13 @@ mysql-client \
 RUN pecl install \
 xdebug
 
+# GD configuration
+RUN docker-php-ext-configure gd \
+--with-freetype-dir=/usr/ \
+--with-jpeg-dir=/usr/ \
+--with-xpm-dir=/usr/ \
+--with-vpx-dir=/usr/
+
 # Extensions
 RUN docker-php-ext-install -j`nproc` \
 zip \
@@ -45,13 +52,6 @@ pcntl \
 bcmath \
 shmop \
 mbstring
-
-# GD configuration
-RUN docker-php-ext-configure gd \
---with-freetype-dir=/usr/ \
---with-jpeg-dir=/usr/ \
---with-xpm-dir=/usr/ \
---with-vpx-dir=/usr/
 
 # Composer
 ENV COMPOSER_HOME /home/developer/.composer
