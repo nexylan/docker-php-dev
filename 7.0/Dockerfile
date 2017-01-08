@@ -51,7 +51,8 @@ gd \
 pcntl \
 bcmath \
 shmop \
-mbstring
+mbstring \
+exif
 
 # Composer
 ENV COMPOSER_HOME /home/developer/.composer
