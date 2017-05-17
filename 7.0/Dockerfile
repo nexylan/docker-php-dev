@@ -14,6 +14,11 @@ libvpx-dev \
 libsqlite3-dev \
 && rm --recursive --force /var/lib/apt/lists/*
 
+# Special NodeJS apt setup (Use LTS version)
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+&& apt-get install nodejs \
+&& rm --recursive --force /var/lib/apt/lists/*
+
 # Extra languages needed for tools
 RUN apt-get update && apt-get install --yes \
 ruby \
@@ -25,7 +30,6 @@ RUN apt-get update && apt-get install --yes \
 wget \
 curl \
 git \
-npm \
 mysql-client \
 && rm --recursive --force /var/lib/apt/lists/*
 
@@ -71,9 +75,6 @@ RUN wget --quiet -O /usr/local/bin/phpunit-old https://phar.phpunit.de/phpunit-o
 # PHP-CS-Fixer
 RUN wget --quiet -O /usr/local/bin/php-cs-fixer http://get.sensiolabs.org/php-cs-fixer.phar && chmod +x /usr/local/bin/php-cs-fixer
 RUN wget --quiet -O /usr/local/bin/php-cs-fixer-1 http://get.sensiolabs.org/php-cs-fixer-v1.13.1.phar && chmod +x /usr/local/bin/php-cs-fixer-1
-
-# NodeJS link trick
-RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 # Ruby gem (bundler and tools)
 RUN gem install \

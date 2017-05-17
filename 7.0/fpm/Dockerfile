@@ -14,6 +14,11 @@ libvpx-dev \
 libsqlite3-dev \
 && rm --recursive --force /var/lib/apt/lists/*
 
+# Special NodeJS apt setup (Use LTS version)
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+&& apt-get install nodejs \
+&& rm --recursive --force /var/lib/apt/lists/*
+
 # Extra languages needed for tools
 RUN apt-get update && apt-get install --yes \
 ruby \
@@ -25,7 +30,6 @@ RUN apt-get update && apt-get install --yes \
 wget \
 curl \
 git \
-npm \
 mysql-client \
 && rm --recursive --force /var/lib/apt/lists/*
 
