@@ -11,11 +11,7 @@ if [ ! "$(getent passwd "${UNIX_USERNAME}")" ]; then
     useradd --home /home/developer --uid "${UNIX_UID}" --gid "${UNIX_GID}" "${UNIX_USERNAME}"
 fi
 
-mkdir --parent \
-/home/developer/.composer \
-/home/developer/.bashrc
-
 chown ${UNIX_USERNAME}:${UNIX_GROUP} /home/developer
-chown -R ${UNIX_USERNAME}:${UNIX_GROUP} \
+chown -R --silent ${UNIX_USERNAME}:${UNIX_GROUP} \
 /home/developer/.composer \
 /home/developer/.bashrc
