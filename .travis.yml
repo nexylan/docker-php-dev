@@ -1,0 +1,5 @@
+language: bash
+
+script:
+  # Tracks if generated code is up to date to the script (diff and status for missing files)
+  - ./update.sh && git diff --exit-code && [[ -z $(git status -s) ]]

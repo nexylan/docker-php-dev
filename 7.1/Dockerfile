@@ -1,4 +1,4 @@
-FROM php:7.0
+FROM php:7.1
 
 # Needed libraries
 RUN apt-get update && apt-get install --yes \
