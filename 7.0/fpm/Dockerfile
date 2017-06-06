@@ -12,6 +12,11 @@ libgif-dev \
 libxpm-dev \
 libvpx-dev \
 libsqlite3-dev \
+libmcrypt-dev \
+libc-client-dev \
+libkrb5-dev \
+libxml2-dev \
+libicu-dev \
 && rm --recursive --force /var/lib/apt/lists/*
 
 # Special NodeJS apt setup (Use LTS version)
@@ -35,8 +40,6 @@ mysql-client \
 
 # PECL extensions
 RUN pecl install \
-xdebug \
-&& docker-php-ext-enable \
 xdebug
 
 # GD configuration
@@ -45,6 +48,10 @@ RUN docker-php-ext-configure gd \
 --with-jpeg-dir=/usr/ \
 --with-xpm-dir=/usr/ \
 --with-vpx-dir=/usr/
+
+# IMAP configuration
+RUN docker-php-ext-configure imap \
+--with-kerberos --with-imap-ssl
 
 # Extensions
 # https://github.com/docker-library/docs/blob/master/php/content.md#how-to-install-more-php-extensions
@@ -58,7 +65,13 @@ pcntl \
 bcmath \
 shmop \
 mbstring \
-exif
+exif \
+mcrypt \
+imap \
+soap
+
+RUN docker-php-ext-enable \
+xdebug
 
 ADD setup.sh /usr/local/bin/setup
 RUN chmod u+x /usr/local/bin/setup
