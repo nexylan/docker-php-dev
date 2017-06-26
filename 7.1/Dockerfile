@@ -1,5 +1,39 @@
 FROM php:7.1
 
+# Common ENV definitions
+
+ENV PECL_PACKAGES \
+    xdebug
+
+ENV PHP_EXTENSIONS \
+    zip \
+    pdo \
+    pdo_mysql \
+    intl \
+    gd \
+    pcntl \
+    bcmath \
+    shmop \
+    mbstring \
+    exif \
+    mcrypt \
+    imap \
+    soap
+
+ENV TOOLS_PACKAGES \
+    bash \
+    wget \
+    curl \
+    git \
+    openssh-client \
+    mysql-client
+
+ADD configure.sh /usr/local/bin/configure
+RUN chmod u+x /usr/local/bin/configure
+
+ADD setup.sh /usr/local/bin/setup
+RUN chmod u+x /usr/local/bin/setup
+
 # Needed libraries
 RUN apt-get update && apt-get install --yes \
 libssl-dev \
@@ -38,44 +72,16 @@ ruby-dev \
 && rm --recursive --force /var/lib/apt/lists/*
 
 # Tools
-RUN apt-get update && apt-get install --yes \
-wget \
-curl \
-git \
-mysql-client \
-&& rm --recursive --force /var/lib/apt/lists/*
+RUN apt-get update && apt-get install --yes ${TOOLS_PACKAGES} && rm --recursive --force /var/lib/apt/lists/*
 
 # PECL extensions
-RUN pecl install \
-xdebug
+RUN pecl install ${PECL_PACKAGES}
 
-# GD configuration
-RUN docker-php-ext-configure gd \
---with-freetype-dir=/usr/ \
---with-jpeg-dir=/usr/ \
---with-xpm-dir=/usr/ \
---with-vpx-dir=/usr/
-
-# IMAP configuration
-RUN docker-php-ext-configure imap \
---with-kerberos --with-imap-ssl
+RUN configure
 
 # Extensions
 # https://github.com/docker-library/docs/blob/master/php/content.md#how-to-install-more-php-extensions
-RUN docker-php-ext-install -j`nproc` \
-zip \
-pdo \
-pdo_mysql \
-intl \
-gd \
-pcntl \
-bcmath \
-shmop \
-mbstring \
-exif \
-mcrypt \
-imap \
-soap
+RUN docker-php-ext-install -j`nproc` ${PHP_EXTENSIONS}
 
 # Composer
 ENV COMPOSER_HOME /home/developer/.composer
@@ -87,13 +93,14 @@ pyrech/composer-changelogs \
 sllh/composer-versions-check \
 && composer clear-cache
 
-# PHPUnit
-RUN wget --quiet -O /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar && chmod +x /usr/local/bin/phpunit
-RUN wget --quiet -O /usr/local/bin/phpunit-old https://phar.phpunit.de/phpunit-old.phar && chmod +x /usr/local/bin/phpunit-old
+# PHAR binaries
+ADD https://phar.phpunit.de/phpunit.phar /usr/local/bin/phpunit
+ADD https://phar.phpunit.de/phpunit-old.phar /usr/local/bin/phpunit-old
+ADD http://get.sensiolabs.org/php-cs-fixer.phar /usr/local/bin/php-cs-fixer
+ADD http://get.sensiolabs.org/php-cs-fixer-v1.13.1.phar /usr/local/bin/php-cs-fixer-1
 
-# PHP-CS-Fixer
-RUN wget --quiet -O /usr/local/bin/php-cs-fixer http://get.sensiolabs.org/php-cs-fixer.phar && chmod +x /usr/local/bin/php-cs-fixer
-RUN wget --quiet -O /usr/local/bin/php-cs-fixer-1 http://get.sensiolabs.org/php-cs-fixer-v1.13.1.phar && chmod +x /usr/local/bin/php-cs-fixer-1
+# Make all binaries executable
+RUN chmod +x /usr/local/bin/*
 
 # Ruby gem (bundler and tools)
 RUN gem install \
@@ -101,6 +108,3 @@ bundler \
 yaml-lint
 
 ADD home/.bashrc /home/developer/
-
-ADD setup.sh /usr/local/bin/setup
-RUN chmod u+x /usr/local/bin/setup
