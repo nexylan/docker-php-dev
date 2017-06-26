@@ -1,4 +1,4 @@
-FROM php:7.0
+FROM php:7.1-alpine
 
 # Common ENV definitions
 
@@ -34,54 +34,49 @@ RUN chmod u+x /usr/local/bin/configure
 ADD setup.sh /usr/local/bin/setup
 RUN chmod u+x /usr/local/bin/setup
 
-# Needed libraries
-RUN apt-get update && apt-get install --yes \
-libssl-dev \
-libicu-dev \
-zlib1g-dev \
-libfreetype6-dev \
-libjpeg62-turbo-dev \
-libpng12-dev \
-libgif-dev \
-libxpm-dev \
-libvpx-dev \
-libsqlite3-dev \
-libmcrypt-dev \
-libc-client-dev \
-libkrb5-dev \
-libxml2-dev \
-libicu-dev \
-&& rm --recursive --force /var/lib/apt/lists/*
+ENV BUILD_DEPS \
+    autoconf \
+    gcc \
+    make \
+    wget \
+    libc-dev \
+    zlib-dev \
+    icu-dev \
+    libpng-dev \
+    libmcrypt-dev \
+    libxml2-dev \
+    jpeg-dev \
+    libxpm-dev \
+    freetype-dev \
+    krb5-dev \
+    openssl-dev
 
-# Special NodeJS apt setup (Use LTS version)
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
-&& apt-get install nodejs \
-&& rm --recursive --force /var/lib/apt/lists/*
-
-# Special Yarn apt setup
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-&& echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-&& apt-get update \
-&& apt-get install yarn \
-&& rm --recursive --force /var/lib/apt/lists/*
-
-# Extra languages needed for tools
-RUN apt-get update && apt-get install --yes \
-ruby \
-ruby-dev \
-&& rm --recursive --force /var/lib/apt/lists/*
+# Needed persistent dependencies
+RUN apk add --no-cache \
+    ruby \
+    ruby-rdoc \
+    ruby-irb \
+    nodejs \
+    libpng \
+    libjpeg-turbo \
+    libxpm \
+    libmcrypt-dev \
+    krb5 \
+    freetype \
+    icu-dev \
+    imap-dev
 
 # Tools
-RUN apt-get update && apt-get install --yes ${TOOLS_PACKAGES} && rm --recursive --force /var/lib/apt/lists/*
+RUN apk add --no-cache ${TOOLS_PACKAGES}
 
-# PECL extensions
-RUN pecl install ${PECL_PACKAGES}
-
-RUN configure
-
-# Extensions
-# https://github.com/docker-library/docs/blob/master/php/content.md#how-to-install-more-php-extensions
-RUN docker-php-ext-install -j`nproc` ${PHP_EXTENSIONS}
+# Extensions install and configure
+RUN set -xe \
+    && apk add --no-cache --virtual .build-deps ${BUILD_DEPS} \
+    && pecl install --force ${PECL_PACKAGES} \
+    && configure \
+    && apk del .phpize-deps-configure \
+    && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) ${PHP_EXTENSIONS} \
+    && apk del .build-deps
 
 # Composer
 ENV COMPOSER_HOME /home/developer/.composer

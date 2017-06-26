@@ -1,5 +1,39 @@
 FROM php:7.0-apache
 
+# Common ENV definitions
+
+ENV PECL_PACKAGES \
+    xdebug
+
+ENV PHP_EXTENSIONS \
+    zip \
+    pdo \
+    pdo_mysql \
+    intl \
+    gd \
+    pcntl \
+    bcmath \
+    shmop \
+    mbstring \
+    exif \
+    mcrypt \
+    imap \
+    soap
+
+ENV TOOLS_PACKAGES \
+    bash \
+    wget \
+    curl \
+    git \
+    openssh-client \
+    mysql-client
+
+ADD configure.sh /usr/local/bin/configure
+RUN chmod u+x /usr/local/bin/configure
+
+ADD setup.sh /usr/local/bin/setup
+RUN chmod u+x /usr/local/bin/setup
+
 # Needed libraries
 RUN apt-get update && apt-get install --yes \
 libssl-dev \
@@ -38,44 +72,16 @@ ruby-dev \
 && rm --recursive --force /var/lib/apt/lists/*
 
 # Tools
-RUN apt-get update && apt-get install --yes \
-wget \
-curl \
-git \
-mysql-client \
-&& rm --recursive --force /var/lib/apt/lists/*
+RUN apt-get update && apt-get install --yes ${TOOLS_PACKAGES} && rm --recursive --force /var/lib/apt/lists/*
 
 # PECL extensions
-RUN pecl install \
-xdebug
+RUN pecl install ${PECL_PACKAGES}
 
-# GD configuration
-RUN docker-php-ext-configure gd \
---with-freetype-dir=/usr/ \
---with-jpeg-dir=/usr/ \
---with-xpm-dir=/usr/ \
---with-vpx-dir=/usr/
-
-# IMAP configuration
-RUN docker-php-ext-configure imap \
---with-kerberos --with-imap-ssl
+RUN configure
 
 # Extensions
 # https://github.com/docker-library/docs/blob/master/php/content.md#how-to-install-more-php-extensions
-RUN docker-php-ext-install -j`nproc` \
-zip \
-pdo \
-pdo_mysql \
-intl \
-gd \
-pcntl \
-bcmath \
-shmop \
-mbstring \
-exif \
-mcrypt \
-imap \
-soap
+RUN docker-php-ext-install -j`nproc` ${PHP_EXTENSIONS}
 
 RUN docker-php-ext-enable \
 xdebug
@@ -84,6 +90,3 @@ RUN a2dissite 000-default
 
 RUN a2enmod \
 rewrite
-
-ADD setup.sh /usr/local/bin/setup
-RUN chmod u+x /usr/local/bin/setup
