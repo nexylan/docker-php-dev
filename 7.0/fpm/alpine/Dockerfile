@@ -22,6 +22,7 @@ ENV PHP_EXTENSIONS \
 
 ENV TOOLS_PACKAGES \
     bash \
+    make \
     wget \
     curl \
     git \
