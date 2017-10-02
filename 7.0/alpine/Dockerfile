@@ -27,7 +27,8 @@ ENV TOOLS_PACKAGES \
     curl \
     git \
     openssh-client \
-    mysql-client
+    mysql-client \
+    yarn
 
 ADD configure.sh /usr/local/bin/configure
 RUN chmod u+x /usr/local/bin/configure
@@ -78,14 +79,6 @@ RUN set -xe \
     && apk del .phpize-deps-configure \
     && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) ${PHP_EXTENSIONS} \
     && apk del .build-deps
-
-# Yarn setup
-ADD https://yarnpkg.com/latest.tar.gz /opt/yarn.tar.gz
-RUN cd /opt \
-    && mkdir yarn \
-    && tar xzf yarn.tar.gz -C yarn --strip-components 1 \
-    && cd /usr/local/bin \
-    && ln -s /opt/yarn/bin/yarn
 
 # Composer
 ENV COMPOSER_HOME /home/developer/.composer
