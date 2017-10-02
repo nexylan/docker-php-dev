@@ -100,7 +100,7 @@ ADD http://get.sensiolabs.org/php-cs-fixer.phar /usr/local/bin/php-cs-fixer
 ADD http://get.sensiolabs.org/php-cs-fixer-v1.13.1.phar /usr/local/bin/php-cs-fixer-1
 
 # Make all binaries executable
-RUN chmod +x /usr/local/bin/*
+RUN chmod 755 /usr/local/bin/*
 
 # Ruby gem (bundler and tools)
 RUN gem install \
