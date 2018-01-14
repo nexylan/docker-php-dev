@@ -57,6 +57,7 @@ RUN apk add --no-cache \
     ruby \
     ruby-rdoc \
     ruby-irb \
+    py-pip \
     nodejs \
     libpng \
     libjpeg-turbo \

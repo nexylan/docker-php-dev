@@ -21,7 +21,10 @@ RUN chmod 755 /usr/local/bin/*
 
 # Ruby gem (bundler and tools)
 RUN gem install \
-bundler \
-yaml-lint
+bundler
+
+# Python packages (tools)
+RUN pip install \
+yamllint
 
 ADD home/.bashrc /home/developer/

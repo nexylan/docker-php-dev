@@ -70,6 +70,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 RUN apt-get update && apt-get install --yes \
 ruby \
 ruby-dev \
+python-pip \
 && rm --recursive --force /var/lib/apt/lists/*
 
 # Tools
@@ -107,7 +108,10 @@ RUN chmod 755 /usr/local/bin/*
 
 # Ruby gem (bundler and tools)
 RUN gem install \
-bundler \
-yaml-lint
+bundler
+
+# Python packages (tools)
+RUN pip install \
+yamllint
 
 ADD home/.bashrc /home/developer/
