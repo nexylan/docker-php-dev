@@ -89,10 +89,11 @@ RUN cd /opt \
     && ln -s /opt/yarn/bin/yarn
 
 # Composer
+ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /home/developer/.composer
 ENV PATH "${COMPOSER_HOME}/vendor/bin:${PATH}"
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN mkdir -p ${COMPOSER_HOME}
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN composer global require --prefer-dist --no-progress --no-interaction \
 hirak/prestissimo \
 pyrech/composer-changelogs \
