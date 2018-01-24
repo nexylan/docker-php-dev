@@ -90,6 +90,7 @@ RUN cd /opt \
 
 # Composer
 ENV COMPOSER_HOME /home/developer/.composer
+ENV PATH "${COMPOSER_HOME}/vendor/bin:${PATH}"
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN mkdir -p ${COMPOSER_HOME}
 RUN composer global require --prefer-dist --no-progress --no-interaction \
@@ -97,6 +98,13 @@ hirak/prestissimo \
 pyrech/composer-changelogs \
 sllh/composer-versions-check \
 phpstan/phpstan-shim \
+squizlabs/php_codesniffer \
+dealerdirect/phpcodesniffer-composer-installer \
+doctrine/coding-standard \
+escapestudios/symfony2-coding-standard \
+object-calisthenics/phpcs-calisthenics-rules \
+slevomat/coding-standard \
+wimg/php-compatibility \
 && composer clear-cache
 
 # PHAR binaries
