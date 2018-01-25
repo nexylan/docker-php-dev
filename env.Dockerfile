@@ -25,4 +25,5 @@ ENV TOOLS_PACKAGES \
     curl \
     git \
     openssh-client \
-    mysql-client
+    mysql-client \
+    yarn
