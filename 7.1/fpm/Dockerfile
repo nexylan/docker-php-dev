@@ -16,7 +16,6 @@ ENV PHP_EXTENSIONS \
     shmop \
     mbstring \
     exif \
-    mcrypt \
     imap \
     soap
 
@@ -37,12 +36,13 @@ RUN chmod u+x /usr/local/bin/setup
 
 # Needed libraries
 RUN apt-get update && apt-get install --yes \
+gnupg \
 libssl-dev \
 libicu-dev \
 zlib1g-dev \
 libfreetype6-dev \
 libjpeg62-turbo-dev \
-libpng12-dev \
+libpng-dev \
 libgif-dev \
 libxpm-dev \
 libvpx-dev \
@@ -56,7 +56,7 @@ libicu-dev \
 
 # Special NodeJS apt setup (Use LTS version)
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
-&& apt-get install nodejs \
+&& apt-get install nodejs --yes \
 && rm --recursive --force /var/lib/apt/lists/*
 
 # Special Yarn apt setup

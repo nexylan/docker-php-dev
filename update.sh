@@ -30,7 +30,7 @@ function create() {
     fi
 }
 
-versions=(7.1)
+versions=(7.1 7.2)
 modes=(fpm apache)
 
 for version in "${versions[@]}"; do

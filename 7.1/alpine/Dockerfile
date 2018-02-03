@@ -16,7 +16,6 @@ ENV PHP_EXTENSIONS \
     shmop \
     mbstring \
     exif \
-    mcrypt \
     imap \
     soap
 

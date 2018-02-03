@@ -1,3 +1,39 @@
+FROM php:7.2-fpm
+
+# Common ENV definitions
+
+ENV PECL_PACKAGES \
+    xdebug
+
+ENV PHP_EXTENSIONS \
+    zip \
+    pdo \
+    pdo_mysql \
+    intl \
+    gd \
+    pcntl \
+    bcmath \
+    shmop \
+    mbstring \
+    exif \
+    imap \
+    soap
+
+ENV TOOLS_PACKAGES \
+    bash \
+    make \
+    wget \
+    curl \
+    git \
+    openssh-client \
+    mysql-client
+
+ADD configure.sh /usr/local/bin/configure
+RUN chmod u+x /usr/local/bin/configure
+
+ADD setup.sh /usr/local/bin/setup
+RUN chmod u+x /usr/local/bin/setup
+
 # Needed libraries
 RUN apt-get update && apt-get install --yes \
 gnupg \
@@ -48,3 +84,6 @@ RUN configure
 # Extensions
 # https://github.com/docker-library/docs/blob/master/php/content.md#how-to-install-more-php-extensions
 RUN docker-php-ext-install -j`nproc` ${PHP_EXTENSIONS}
+
+RUN docker-php-ext-enable \
+xdebug
