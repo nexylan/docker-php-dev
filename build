@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -e
+
+BUILD_DIR="/tmp/docker-php-dev/build"
+
+tag=${VERSION}
+build_command="docker build --build-arg version=${VERSION}"
+_variant=${VARIANT}
+if [ ! -z "${VARIANT}" ]; then
+    build_command="${build_command} --build-arg variant=-${VARIANT}"
+    tag="${tag}-${VARIANT}"
+else
+    _variant="cli"
+fi
+_base=${BASE}
+if [ ! -z "${BASE}" ]; then
+    build_command="${build_command} --build-arg base=-${BASE}"
+    tag="${tag}-${BASE}"
+else
+    _base="debian"
+fi
+build_command="${build_command} --tag nexylan/php-dev:${tag} ${BUILD_DIR}"
+
+rm --recursive --force ${BUILD_DIR} && mkdir --parent ${BUILD_DIR}
+
+# Creates the final Dockerfile
+cp ./base.Dockerfile ${BUILD_DIR}/Dockerfile
+echo >> ${BUILD_DIR}/Dockerfile
+cat base-${_base}.Dockerfile >> ${BUILD_DIR}/Dockerfile
+echo >> ${BUILD_DIR}/Dockerfile
+cat ${_variant}.Dockerfile >> ${BUILD_DIR}/Dockerfile
+
+# Copies script utilities
+cp ${_variant}.setup.sh ${BUILD_DIR}/setup.sh
+cp configure.sh ${BUILD_DIR}/configure.sh
+
+# Copies specific files
+if [ -d "files/${_variant}" ]; then
+    cp --recursive files/${_variant}/* ${BUILD_DIR}/
+fi
+
+${build_command}
+
+if [ ! -z "${ALIAS}" ]; then
+    docker tag nexylan/php-dev:${tag} nexylan/php-dev:${ALIAS}
+fi
+
+docker run --rm -v `pwd`:`pwd` -w `pwd` nexylan/php-dev:${tag} php --version

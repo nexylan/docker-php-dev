@@ -1,5 +1,39 @@
+branches:
+  only: master
+
 language: bash
 
+services:
+  - docker
+
+matrix:
+  fast_finish: true
+  include:
+    - env:
+      - VERSION=7.1
+      - ALIAS=latest
+    - env:
+      - VERSION=7.1
+      - VARIANT=fpm
+      - ALIAS=fpm
+    - env:
+      - VERSION=7.1
+      - VARIANT=apache
+      - ALIAS=apache
+    - env:
+      - VERSION=7.1
+      - BASE=alpine
+      - ALIAS=alpine
+    - env:
+      - VERSION=7.1
+      - VARIANT=fpm
+      - BASE=alpine
+      - ALIAS=fpm-alpine
+
 script:
-  # Tracks if generated code is up to date to the script (diff and status for missing files)
-  - ./update.sh && git diff --exit-code && [[ -z $(git status -s) ]]
+  - ./build
+
+after_success:
+  - docker images
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then docker push nexylan/php-dev; fi
