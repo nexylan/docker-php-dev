@@ -17,6 +17,7 @@ ENV BUILD_DEPS \
 
 # Needed persistent dependencies
 RUN apk add --no-cache \
+    gnupg \
     ruby \
     ruby-rdoc \
     ruby-irb \

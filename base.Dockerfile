@@ -1,4 +1,12 @@
-# Common ENV definitions
+ARG version
+ARG base
+ARG variant=''
+
+FROM php:${version}${variant}${base}
+
+ADD configure.sh /usr/local/bin/configure
+ADD setup.sh /usr/local/bin/setup
+RUN chmod u+x /usr/local/bin/*
 
 ENV PECL_PACKAGES \
     xdebug

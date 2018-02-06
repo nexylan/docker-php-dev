@@ -1,5 +1,6 @@
 # Needed libraries
 RUN apt-get update && apt-get install --yes \
+gnupg \
 libssl-dev \
 libicu-dev \
 zlib1g-dev \
