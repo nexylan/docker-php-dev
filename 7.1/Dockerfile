@@ -106,6 +106,7 @@ wimg/php-compatibility \
 && composer clear-cache
 
 # PHAR binaries
+ADD https://phar.io/releases/phive.phar /usr/local/bin/phive
 ADD https://phar.phpunit.de/phpunit.phar /usr/local/bin/phpunit
 ADD https://phar.phpunit.de/phpunit-6.phar /usr/local/bin/phpunit-6
 ADD https://phar.phpunit.de/phpunit-5.phar /usr/local/bin/phpunit-5
@@ -115,6 +116,10 @@ RUN ln -s /home/developer/.composer/vendor/phpstan/phpstan-shim/phpstan.phar /us
 
 # Make all binaries executable
 RUN chmod 755 /usr/local/bin/*
+
+RUN phive install --global \
+    --trust-gpg-keys D2CCAC42F6295E7D \
+    composer-require-checker
 
 # Ruby gem (bundler and tools)
 RUN gem install \
