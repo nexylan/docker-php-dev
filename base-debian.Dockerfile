@@ -6,7 +6,7 @@ libicu-dev \
 zlib1g-dev \
 libfreetype6-dev \
 libjpeg62-turbo-dev \
-libpng12-dev \
+libpng-dev \
 libgif-dev \
 libxpm-dev \
 libvpx-dev \
@@ -20,7 +20,7 @@ libicu-dev \
 
 # Special NodeJS apt setup (Use LTS version)
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
-&& apt-get install nodejs \
+&& apt-get install nodejs --yes \
 && rm --recursive --force /var/lib/apt/lists/*
 
 # Special Yarn apt setup
@@ -47,4 +47,4 @@ RUN configure
 
 # Extensions
 # https://github.com/docker-library/docs/blob/master/php/content.md#how-to-install-more-php-extensions
-RUN docker-php-ext-install -j`nproc` ${PHP_EXTENSIONS}
+RUN docker-php-ext-install -j`nproc` ${PHP_EXTENSIONS} ${PHP_ADDITIONAL_EXTENSIONS}

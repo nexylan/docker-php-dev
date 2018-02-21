@@ -26,6 +26,10 @@ rm --recursive --force ${BUILD_DIR} && mkdir --parent ${BUILD_DIR}
 # Creates the final Dockerfile
 cp ./base.Dockerfile ${BUILD_DIR}/Dockerfile
 echo >> ${BUILD_DIR}/Dockerfile
+if [ -f ${VERSION}.Dockerfile ]; then
+    cat ${VERSION}.Dockerfile >> ${BUILD_DIR}/Dockerfile
+    echo >> ${BUILD_DIR}/Dockerfile
+fi
 cat base-${_base}.Dockerfile >> ${BUILD_DIR}/Dockerfile
 echo >> ${BUILD_DIR}/Dockerfile
 cat ${_variant}.Dockerfile >> ${BUILD_DIR}/Dockerfile
@@ -46,3 +50,4 @@ if [ ! -z "${ALIAS}" ]; then
 fi
 
 docker run --rm -v `pwd`:`pwd` -w `pwd` nexylan/php-dev:${tag} php --version
+docker run --rm -v `pwd`:`pwd` -w `pwd` nexylan/php-dev:${tag} php -m

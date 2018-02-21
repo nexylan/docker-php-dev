@@ -1,0 +1,2 @@
+ENV PHP_ADDITIONAL_EXTENSIONS \
+    mcrypt
