@@ -41,7 +41,7 @@ RUN set -xe \
     && pecl install --force ${PECL_PACKAGES} \
     && configure \
     && apk del .phpize-deps-configure \
-    && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) ${PHP_EXTENSIONS} \
+    && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) ${PHP_EXTENSIONS} ${PHP_ADDITIONAL_EXTENSIONS} \
     && apk del .build-deps
 
 # Yarn setup
