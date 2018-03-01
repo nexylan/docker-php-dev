@@ -16,6 +16,7 @@ escapestudios/symfony2-coding-standard \
 object-calisthenics/phpcs-calisthenics-rules \
 slevomat/coding-standard \
 wimg/php-compatibility \
+vimeo/psalm \
 && composer clear-cache
 
 # PHAR binaries
