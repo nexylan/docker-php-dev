@@ -11,10 +11,10 @@ sllh/composer-versions-check \
 phpstan/phpstan-shim \
 squizlabs/php_codesniffer \
 dealerdirect/phpcodesniffer-composer-installer \
-doctrine/coding-standard \
+doctrine/coding-standard:* \
 escapestudios/symfony2-coding-standard \
 object-calisthenics/phpcs-calisthenics-rules \
-slevomat/coding-standard:!=4.8.0 \
+'slevomat/coding-standard:<4.8.0 || >4.8.2' \
 wimg/php-compatibility \
 && composer clear-cache
 
