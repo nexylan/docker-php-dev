@@ -14,7 +14,7 @@ dealerdirect/phpcodesniffer-composer-installer \
 doctrine/coding-standard:* \
 escapestudios/symfony2-coding-standard \
 object-calisthenics/phpcs-calisthenics-rules \
-'slevomat/coding-standard:<4.8.0 || >4.8.2' \
+'slevomat/coding-standard:<4.8.0 || >4.8.3' \
 wimg/php-compatibility \
 && composer clear-cache
 
