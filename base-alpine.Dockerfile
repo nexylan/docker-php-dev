@@ -51,3 +51,12 @@ RUN cd /opt \
     && tar xzf yarn.tar.gz -C yarn --strip-components 1 \
     && cd /usr/local/bin \
     && ln -s /opt/yarn/bin/yarn
+
+# Shellcheck setup
+ADD https://storage.googleapis.com/shellcheck/shellcheck-stable.linux.x86_64.tar.xz /opt/shellcheck.tar.xz
+RUN cd /opt \
+	&& mkdir shellcheck \
+	&& tar --xz --extract --file shellcheck.tar.xz --directory shellcheck \
+	&& cp shellcheck/shellcheck-stable/shellcheck /usr/bin/ \
+	&& shellcheck --version \
+	&& rm -rf shellcheck shellcheck.tar.xz
