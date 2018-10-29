@@ -16,7 +16,6 @@ libc-client-dev \
 libkrb5-dev \
 libxml2-dev \
 libicu-dev \
-shellcheck \
 
 && rm --recursive --force /var/lib/apt/lists/*
 
@@ -31,6 +30,15 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 && apt-get update \
 && apt-get install yarn \
 && rm --recursive --force /var/lib/apt/lists/*
+
+# Shellcheck setup
+ADD https://storage.googleapis.com/shellcheck/shellcheck-stable.linux.x86_64.tar.xz /opt/shellcheck.tar.xz
+RUN cd /opt \
+	&& mkdir shellcheck \
+	&& tar --xz --extract --file shellcheck.tar.xz --directory shellcheck \
+	&& cp shellcheck/shellcheck-stable/shellcheck /usr/bin/ \
+	&& shellcheck --version \
+	&& rm -rf shellcheck shellcheck.tar.xz
 
 # Extra languages needed for tools
 RUN apt-get update && apt-get install --yes \
