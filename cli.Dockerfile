@@ -7,6 +7,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN composer global require --prefer-dist --no-progress --no-interaction \
 hirak/prestissimo \
 pyrech/composer-changelogs \
+bamarni/composer-bin-plugin \
 sllh/composer-versions-check \
 phpstan/phpstan-shim \
 squizlabs/php_codesniffer \
