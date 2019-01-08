@@ -51,3 +51,7 @@ RUN cd /opt \
     && tar xzf yarn.tar.gz -C yarn --strip-components 1 \
     && cd /usr/local/bin \
     && ln -s /opt/yarn/bin/yarn
+
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/community" >> /etc/apk/repositories; \
+    && apk update \
+    && apk add docker
