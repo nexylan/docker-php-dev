@@ -20,7 +20,7 @@ libicu-dev \
 && rm --recursive --force /var/lib/apt/lists/*
 
 # Special NodeJS apt setup (Use LTS version)
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - \
 && apt-get install nodejs --yes \
 && rm --recursive --force /var/lib/apt/lists/*
 
