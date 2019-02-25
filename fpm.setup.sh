@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e
 
 if [ ! "$(getent group ${UNIX_GROUP})" ]; then
     echo "Create group ${UNIX_GROUP}"
