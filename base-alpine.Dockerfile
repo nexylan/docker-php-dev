@@ -13,7 +13,8 @@ ENV BUILD_DEPS \
     libxpm-dev \
     freetype-dev \
     krb5-dev \
-    openssl-dev
+    openssl-dev \
+    libzip-dev
 
 # Needed persistent dependencies
 RUN apk add --no-cache \

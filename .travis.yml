@@ -10,8 +10,27 @@ matrix:
   fast_finish: true
   include:
     - env:
+        - VERSION=7.3
+        - ALIAS=latest
+    - env:
+        - VERSION=7.3
+        - VARIANT=fpm
+        - ALIAS=fpm
+    - env:
+        - VERSION=7.3
+        - VARIANT=apache
+        - ALIAS=apache
+    - env:
+        - VERSION=7.3
+        - BASE=alpine
+        - ALIAS=alpine
+    - env:
+        - VERSION=7.3
+        - VARIANT=fpm
+        - BASE=alpine
+        - ALIAS=fpm-alpine
+    - env:
       - VERSION=7.2
-      - ALIAS=latest
     - env:
       - VERSION=7.2
       - VARIANT=fpm
