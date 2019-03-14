@@ -7,9 +7,8 @@ if [ ! "$(getent group ${UNIX_GROUP})" ]; then
     else
         groupadd --gid "${UNIX_GID}" "${UNIX_GROUP}"
     fi
-
-    sed --in-place --expression="s/group = www-data/group = ${UNIX_GROUP}/g" /usr/local/etc/php-fpm.d/www.conf
 fi
+sed --in-place --expression="s/group = www-data/group = ${UNIX_GROUP}/g" /usr/local/etc/php-fpm.d/www.conf
 
 if [ ! "$(getent passwd "${UNIX_USERNAME}")" ]; then
     echo "Create user ${UNIX_USERNAME}"
@@ -18,6 +17,5 @@ if [ ! "$(getent passwd "${UNIX_USERNAME}")" ]; then
     else
         useradd --home /home/developer --uid "${UNIX_UID}" --gid "${UNIX_GID}" "${UNIX_USERNAME}"
     fi
-
-    sed --in-place --expression="s/user = www-data/user = ${UNIX_USERNAME}/g" /usr/local/etc/php-fpm.d/www.conf
 fi
+sed --in-place --expression="s/user = www-data/user = ${UNIX_USERNAME}/g" /usr/local/etc/php-fpm.d/www.conf
