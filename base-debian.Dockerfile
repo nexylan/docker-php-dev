@@ -16,6 +16,7 @@ libc-client-dev \
 libkrb5-dev \
 libxml2-dev \
 libicu-dev \
+libzip-dev \
 
 && rm --recursive --force /var/lib/apt/lists/*
 
