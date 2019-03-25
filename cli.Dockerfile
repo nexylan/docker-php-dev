@@ -12,9 +12,9 @@ sllh/composer-versions-check \
 phpstan/phpstan-shim \
 squizlabs/php_codesniffer \
 dealerdirect/phpcodesniffer-composer-installer \
-object-calisthenics/phpcs-calisthenics-rules \
+object-calisthenics/phpcs-calisthenics-rules:^3.4 \
 wimg/php-compatibility \
-nexylan/coding-standard \
+nexylan/coding-standard:^0.0.2 \
 && composer clear-cache
 
 # PHAR binaries
