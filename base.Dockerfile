@@ -31,8 +31,7 @@ ENV TOOLS_PACKAGES \
     wget \
     curl \
     git \
-    openssh-client \
-    mysql-client
+    openssh-client
 
 # Shellcheck setup
 ADD https://storage.googleapis.com/shellcheck/shellcheck-stable.linux.x86_64.tar.xz /opt/shellcheck.tar.xz

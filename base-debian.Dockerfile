@@ -37,6 +37,7 @@ RUN apt-get update && apt-get install --yes \
 ruby \
 ruby-dev \
 python-pip \
+default-mysql-client \
 && rm --recursive --force /var/lib/apt/lists/*
 
 # Tools
