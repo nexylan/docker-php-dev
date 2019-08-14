@@ -31,7 +31,8 @@ RUN apk add --no-cache \
     krb5 \
     freetype \
     icu-dev \
-    imap-dev
+    imap-dev \
+    mysql-client
 
 # Tools
 RUN apk add --no-cache ${TOOLS_PACKAGES}
